@@ -15,7 +15,10 @@ To use ko, you need to import it as
 ```go
 import "github.com/AdamColton/ko"
 ```
-
+To run the tests, execute
+```bash
+  go test github.com/AdamColton/ko
+```
 ## func Ranger
 ```go
   Ranger(args ...int) (chan int)
