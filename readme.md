@@ -145,6 +145,15 @@ This can also be very powerful with closures
   mult := Slicer(funcMult,5,5).([][]int)
 ```
 
+And Slicer can be used to imitate a functional Map.
+```go
+  pi := []int{3,1,4,1,5}
+  funSqr := func(i int) int{
+    return pi[i] * pi [i]
+  }
+  sqrPi := Slicer(funSqr, len(pi))
+```
+
 ## func Looper
 ```go
   func Looper(n int, fn func())
