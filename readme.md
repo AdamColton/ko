@@ -182,3 +182,32 @@ Takes a slice and returns the last value of the slice and the slice, resized to 
   3
   */
 ```
+
+## func Shift
+```go
+  func Shift(slice interface{}) (interface{}, interface{}) {
+```
+
+Takes a slice and returns the first value of the slice and the slice, resized to remove the remove value.
+
+### Example
+```go
+  pi := []int{3,1,4,1,5,9}
+  castShift := func (slice []int)(int, []int){
+    a, b := Shift(slice)
+    return a.(int), b.([]int)
+  }
+  for v:=0; len(pi) > 0 ; {
+    v,pi = castShift(pi)
+    fmt.Println(v)
+  }
+
+  /* Output
+  3
+  1
+  4
+  1
+  5
+  9
+  */
+```

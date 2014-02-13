@@ -147,3 +147,8 @@ func Pop(slice interface{}) (interface{}, interface{}) {
   index := sliceVal.Len() - 1
   return sliceVal.Index(index).Interface(), sliceVal.Slice(0, index).Interface()
 }
+
+func Shift(slice interface{}) (interface{}, interface{}) {
+  sliceVal := reflect.ValueOf(slice)
+  return sliceVal.Index(0).Interface(), sliceVal.Slice(1, sliceVal.Len()).Interface()
+}
