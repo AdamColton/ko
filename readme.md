@@ -153,3 +153,32 @@ Takes a value and a slice and returns the index of the index of the value in the
   8
   */
 ```
+
+## func Pop
+```go
+  func Pop(slice interface{}) (interface{}, interface{}) {
+```
+
+Takes a slice and returns the last value of the slice and the slice, resized to remove the last value.
+
+### Example
+```go
+  pi := []int{3,1,4,1,5,9}
+  castPop := func (slice []int)(int, []int){
+    a, b := Pop(slice)
+    return a.(int), b.([]int)
+  }
+  for v:=0; len(pi) > 0 ; {
+    v,pi = castPop(pi)
+    fmt.Println(v)
+  }
+
+  /* Output
+  9
+  5
+  1
+  4
+  1
+  3
+  */
+```

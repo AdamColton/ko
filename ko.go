@@ -141,3 +141,9 @@ func IndexOf(val interface{}, slice interface{}) int{
   }
   return -1
 }
+
+func Pop(slice interface{}) (interface{}, interface{}) {
+  sliceVal := reflect.ValueOf(slice)
+  index := sliceVal.Len() - 1
+  return sliceVal.Index(index).Interface(), sliceVal.Slice(0, index).Interface()
+}
