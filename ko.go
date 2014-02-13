@@ -10,7 +10,7 @@ func Looper(n int, fn func()){
   }
 }
 
-func Ranger(args ...int) chan int{
+func Ranger(args ...int) (chan int){
   ch := make(chan int)
   switch (len(args)){
   case 0:
