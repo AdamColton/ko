@@ -3,6 +3,19 @@ In the game Go, the Ko rule says that a board can never be repeated. The objecti
 
 This package uses reflection heavily and is therefore fairly slow. I would not recommend using this in production code, however it may prove useful for prototyping.
 
+Throughout this document I will show the actual function signature as well as what the signature would look like with templates/generics.
+
+## Index
+[Setup](#setup)
+[func Ranger](#func-ranger)
+[func Prepend](#func-prepend)
+[func Product](#func-product)
+[func Slicer](#func-slicer)
+[func Looper](#func-looper)
+[func IndexOf](#func-indexof)
+[func Pop](#func-pop)
+[func Shift](#func-shift)
+
 ## Setup
 For working with packages see http://golang.org/doc/code.html
 
@@ -72,7 +85,8 @@ Works a lot like the python Range function. It be thought of having the followin
 
 ## func Prepend
 ```go
-  func Prepend(p interface{}, s interface{}) interface{}
+  func Prepend(p interface{}, s interface{}) (interface){}
+  func Prepend(p <T>, s []<T>) ([]<T>)
 ```
 Takes a value and a slice and prepends the value to the slice. User needs to cast the return.
 
@@ -84,6 +98,7 @@ Takes a value and a slice and prepends the value to the slice. User needs to cas
 ## func Product
 ```go
   func Product(h interface{}, t ...interface{}) interface{}
+  func Product(lists ...[]<T>)([]<T>)
 ```
 Takes any number of lists and produces the cartesian product of them. The lists must be of the same type. The return value should be cast the same type as well
 
@@ -98,6 +113,7 @@ Takes any number of lists and produces the cartesian product of them. The lists 
 ## Slicer
 ```go
   Slicer (f interface{}, dims ...int) interface{}
+  Slicer (f func(coord ...int)(<T>), dims ...int) ([]...[]<T>)
 ```
 
 Takes a function and any number of dimensions as ints. Returns a multi-dimensional slice matching the dimensions given. Each value in the slice will be the value of the funciton passed in when called with coordinate value.
@@ -150,6 +166,7 @@ Runs a function a given number of times. This is just syntactic sugar for really
 ## func IndexOf
 ```go
   IndexOf(val interface{}, slice interface{}) int
+  IndexOf(val <T>, slice []<T>) int
 ```
 
 Takes a value and a slice and returns the index of the index of the value in the slice. Returns -1 if the value is not found.
@@ -172,7 +189,8 @@ Takes a value and a slice and returns the index of the index of the value in the
 
 ## func Pop
 ```go
-  func Pop(slice interface{}) (interface{}, interface{}) {
+  func Pop(slice interface{}) (interface{}, interface{})
+  func Pop(slice []<T>) (<T>, []<T>)
 ```
 
 Takes a slice and returns the last value of the slice and the slice, resized to remove the last value.
@@ -201,7 +219,8 @@ Takes a slice and returns the last value of the slice and the slice, resized to 
 
 ## func Shift
 ```go
-  func Shift(slice interface{}) (interface{}, interface{}) {
+  func Shift(slice interface{}) (interface{}, interface{})
+  func Shift(slice []<T>) (<T>, []<T>)
 ```
 
 Takes a slice and returns the first value of the slice and the slice, resized to remove the remove value.
