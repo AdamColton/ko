@@ -110,7 +110,7 @@ Takes any number of slices and produces the cartesian product of them. The slice
   }
 ```
 
-## Slicer
+## func Slicer
 ```go
   Slicer (f interface{}, dims ...int) interface{}
   Slicer (f func(coord ...int)(<T>), dims ...int) ([]...[]<T>)
