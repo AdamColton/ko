@@ -3,6 +3,19 @@ In the game Go, the Ko rule says that a board can never be repeated. The objecti
 
 This package uses reflection heavily and is therefore fairly slow. I would not recommend using this in production code, however it may prove useful for prototyping.
 
+## Setup
+For working with packages see http://golang.org/doc/code.html
+
+Make sure you've set your GOPATH then use
+```bash
+  go get github.com/AdamColton/ko
+```
+
+To use ko, you need to import it as
+```go
+import "github.com/AdamColton/ko"
+```
+
 ## func Ranger
 ```go
   Ranger(args ...int) (chan int)
