@@ -6,15 +6,15 @@ This package uses reflection heavily and is therefore fairly slow. I would not r
 Throughout this document I will show the actual function signature as well as what the signature would look like with templates/generics.
 
 ## Index
-[Setup](#setup)
-[func Ranger](#func-ranger)
-[func Prepend](#func-prepend)
-[func Product](#func-product)
-[func Slicer](#func-slicer)
-[func Looper](#func-looper)
-[func IndexOf](#func-indexof)
-[func Pop](#func-pop)
-[func Shift](#func-shift)
+* [Setup](#setup)
+* [func Ranger](#func-ranger)
+* [func Prepend](#func-prepend)
+* [func Product](#func-product)
+* [func Slicer](#func-slicer)
+* [func Looper](#func-looper)
+* [func IndexOf](#func-indexof)
+* [func Pop](#func-pop)
+* [func Shift](#func-shift)
 
 ## Setup
 For working with packages see http://golang.org/doc/code.html
@@ -98,9 +98,9 @@ Takes a value and a slice and prepends the value to the slice. User needs to cas
 ## func Product
 ```go
   func Product(h interface{}, t ...interface{}) interface{}
-  func Product(lists ...[]<T>)([]<T>)
+  func Product(slices ...[]<T>)([]<T>)
 ```
-Takes any number of lists and produces the cartesian product of them. The lists must be of the same type. The return value should be cast the same type as well
+Takes any number of slices and produces the cartesian product of them. The slices must be of the same type. The return value should be cast the same type as well
 
 ### Example
 ```go
