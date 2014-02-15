@@ -114,9 +114,10 @@ Takes any number of slices and produces the cartesian product of them. The slice
 ```go
   Slicer (f interface{}, dims ...int) interface{}
   Slicer (f func(coord ...int)(<T>), dims ...int) ([]...[]<T>)
+  Slicer (f func(coord ...int)(<T>, bool), dims ...int) ([]...[]<T>)
 ```
 
-Takes a function and any number of dimensions as ints. Returns a multi-dimensional slice matching the dimensions given. Each value in the slice will be the value of the funciton passed in when called with coordinate value.
+Takes a function and any number of dimensions as ints. Returns a multi-dimensional slice matching the dimensions given. Each value in the slice will be the value of the funciton passed in when called with coordinate value. Optionally, the function passed in can return a second argument, a bool, and Slicer will filter on the bool 
 
 
 ### Example
@@ -148,12 +149,34 @@ This can also be very powerful with closures
 And Slicer can be used to imitate a functional Map.
 ```go
   pi := []int{3,1,4,1,5}
-  funSqr := func(i int) int{
-    return pi[i] * pi [i]
+  funcSqr := func(i int) int{
+    return pi[i] * pi[i]
   }
-  sqrPi := Slicer(funSqr, len(pi))
+  sqrPi := Slicer(funcSqr, len(pi))
+  /* Output
+  9
+  1
+  16
+  1
+  25
+  */
 ```
 
+Slicer as filter
+```go
+  pi := []int{-1,3,-5,1,-8,4,1,-9,5}
+  filter := func(i int) (int, bool){
+    return pi[i], pi[i] > 0
+  }
+  sqrPi := Slicer(filter, len(pi))
+  /* Output
+  3
+  1
+  4
+  1
+  5
+  */
+```
 ## func Looper
 ```go
   func Looper(n int, fn func())

@@ -100,14 +100,19 @@ func Slicer (f interface{}, dims ...int) interface{} {
     if len(dims) == 1 {
       args = append(args, reflect.ValueOf(0))
       fv := reflect.ValueOf(f)
-      val0 := fv.Call(args)[0]
-      t := reflect.SliceOf(val0.Type())
+      val0 := fv.Call(args)
+      t := reflect.SliceOf(val0[0].Type())
       l := reflect.MakeSlice( t, 0, dims[0])
-      l = reflect.Append(l, val0)
+      if len(val0) == 1 || val0[1].Interface().(bool) {
+        l = reflect.Append(l, val0[0])
+      }
       index := len(args) - 1
       for i:=1; i<dims[0]; i++ {
         args[index] = reflect.ValueOf(i)
-        l = reflect.Append(l,fv.Call(args)[0])
+        ret := fv.Call(args)
+        if len(ret) == 1 || ret[1].Interface().(bool) {
+          l = reflect.Append(l,ret[0])
+        }
       }
       args = args[:index]
       return l, t

@@ -90,7 +90,7 @@ func TestSlicer(t *testing.T) {
         t.Error("Expected ", expected, " got ", actual)
       }
     }
-  } 
+  }
 }
 
 func TestIndexOf(t *testing.T){
@@ -130,5 +130,19 @@ func TestShift(t *testing.T){
   i, s := castShift(pi)
   if i != 3 || len(s) != 5 {
     t.Error("Got ", i, s, " Expected 3 [1 4 1 5 9]")
+  }
+}
+
+func TestSlicerAsFilter(t *testing.T){
+  in := []int{4,-1,2,-5,5,-7,2,6,-9,-8}
+  expected := []int{3,1,4,1,5}
+  filter := func (i int) (int, bool) {
+    return in[i]-1, in[i]>0
+  }
+  actual := Slicer(filter, len(in)).([]int)
+  for i, v := range expected {
+    if v != actual[i]{
+      t.Error("Got: ", actual, " Expected: ", expected)
+    }
   }
 }
