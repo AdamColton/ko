@@ -95,19 +95,17 @@ func Product(h interface{}, t ...interface{}) interface{}{
 }
 
 func Slicer (f interface{}, dims ...int) interface{} {
-  var slicer func(interface{}, []reflect.Value, ...int) (reflect.Value, reflect.Type)
-  slicer = func(f interface{}, args []reflect.Value, dims ...int) (reflect.Value, reflect.Type) {
+  ft := reflect.TypeOf(f)
+  fv := reflect.ValueOf(f)
+  outType := ft.Out(0)
+
+  var slicer func(interface{}, []reflect.Value, ...int) (reflect.Value)
+  slicer = func(f interface{}, args []reflect.Value, dims ...int) (reflect.Value) {
     if len(dims) == 1 {
+      index := len(args)
       args = append(args, reflect.ValueOf(0))
-      fv := reflect.ValueOf(f)
-      val0 := fv.Call(args)
-      t := reflect.SliceOf(val0[0].Type())
-      l := reflect.MakeSlice( t, 0, dims[0])
-      if len(val0) == 1 || val0[1].Interface().(bool) {
-        l = reflect.Append(l, val0[0])
-      }
-      index := len(args) - 1
-      for i:=1; i<dims[0]; i++ {
+      l := reflect.MakeSlice( reflect.SliceOf(outType), 0, dims[0])
+      for i:=0; i<dims[0]; i++ {
         args[index] = reflect.ValueOf(i)
         ret := fv.Call(args)
         if len(ret) == 1 || ret[1].Interface().(bool) {
@@ -115,25 +113,25 @@ func Slicer (f interface{}, dims ...int) interface{} {
         }
       }
       args = args[:index]
-      return l, t
+      return l
     }
+    index := len(args)
     args = append(args, reflect.ValueOf(0))
-    val0, t := slicer(f, args, dims[1:]...)
-    t = reflect.SliceOf(t)
+    t := reflect.SliceOf(outType)
+    for i:=0; i<index+1; i++{
+      t = reflect.SliceOf(t)
+    } 
     l := reflect.MakeSlice( t, 0, dims[0] )
-    l = reflect.Append(l, val0)
-    index := len(args) - 1
-    for i:=1; i<dims[0]; i++{
+    for i:=0; i<dims[0]; i++{
       args[index] = reflect.ValueOf(i)
-      val, _ := slicer(f, args, dims[1:]...)
+      val := slicer(f, args, dims[1:]...)
       l = reflect.Append(l, val)
     }
     args = args[:index]
-    return l, t
+    return l
   }
 
-  slice, _ := slicer(f, make([]reflect.Value,0, len(dims)), dims...)
-  return slice.Interface()
+  return slicer(f, make([]reflect.Value,0, len(dims)), dims...).Interface()
 }
 
 func IndexOf(val interface{}, slice interface{}) int{
